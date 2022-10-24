@@ -755,11 +755,17 @@ public class InventoryUtils
 
     public static void villagerTradeEverythingPossibleWithTrade(int visibleIndex)
     {
+        if (visibleIndex < 0) return;
+
         if (GuiUtils.getCurrentScreen() instanceof MerchantScreen merchantGui)
         {
             MerchantScreenHandler handler = merchantGui.getScreenHandler();
+            var recipes = handler.getRecipes();
+
+            if (visibleIndex >= recipes.size()) return;
+
+            ItemStack sellItem = recipes.get(visibleIndex).getSellItem().copy();
             Slot slot = handler.getSlot(2);
-            ItemStack sellItem = handler.getRecipes().get(visibleIndex).getSellItem().copy();
 
             while (true)
             {
